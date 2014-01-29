@@ -213,13 +213,14 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
     p
     ))
 
-(defun cppcm-get-exe-dir-path-current-buffer ()
-  (let (cm
-        exe-path
-        )
+(defun cppcm--find-cmakelist-from-current-dir ()
+  (let (cm)
     (setq cm (concat (file-name-as-directory (file-name-directory buffer-file-name)) "CMakeLists.txt"))
+    ))
 
-    (setq exe-path (gethash (concat cm "exe-dir") cppcm-hash))
+(defun cppcm-get-exe-dir-path-current-buffer ()
+  (let (exe-path)
+    (setq exe-path (gethash (concat (cppcm--find-cmakelist-from-current-dir) "exe-dir") cppcm-hash))
     exe-path
     ))
 
@@ -317,11 +318,8 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 ;;;###autoload
 (defun cppcm-get-exe-path-current-buffer ()
   (interactive)
-  (let (cm
-        exe-path
-        )
-    (setq cm (concat (file-name-as-directory (file-name-directory buffer-file-name)) "CMakeLists.txt"))
-    (setq exe-path (gethash (concat cm "exe-full-path") cppcm-hash))
+  (let (exe-path)
+    (setq exe-path (gethash (concat (cppcm--find-cmakelist-from-current-dir) "exe-full-path") cppcm-hash))
     (if exe-path
         (progn
           (cppcm-share-str exe-path)
@@ -334,14 +332,10 @@ White space here is any of: space, tab, emacs newline (line feed, ASCII 10)."
 
 (defun cppcm-set-c-flags-current-buffer ()
   (interactive)
-  (let (cm
-        c-compiling-flags-list
+  (let (c-compiling-flags-list
         c-flags
-        c-defines
-        )
-    (setq cm (concat (file-name-as-directory (file-name-directory buffer-file-name)) "CMakeLists.txt"))
-
-    (setq c-compiling-flags-list (gethash cm cppcm-hash))
+        c-defines)
+    (setq c-compiling-flags-list (gethash (cppcm--find-cmakelist-from-current-dir) cppcm-hash))
     (setq c-flags (nth 0 c-compiling-flags-list))
     (setq c-defines (nth 1 c-compiling-flags-list))
 
