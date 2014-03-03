@@ -8,6 +8,10 @@ Key points before you continue:
 - easy to use, copy the elisp code from "Set up" section into you ~/.emacs. DONE! Use Emacs as usual and ignore advanced tips in remaining sections.
 - cpputils-cmake will configure many third party plugins *automatically* for you. But it's *NOT* dependent on those plugins. Only CMake is required.
 
+* dojeda fork
+
+I'm trying to modify the original cpputils-cmake so that it works correctly with subdirectories
+
 * install
 ** easy way
 cpputils-cmake is already uploaded to [[http://marmalade-repo.org/]]. So the best way to install it is using Emacs' package manager.
