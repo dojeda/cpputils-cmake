@@ -86,6 +86,20 @@ For example:
     v
     ))
 
+(defun dojeda/cppcm-query-var (f re)
+  (let (vlist lines found)
+    (setq lines (cppcm-readlines f))
+    (setq vlist '())
+    (dolist (l lines)
+      (when (string-match re l)
+        (push (match-string 1 l) vlist)
+        (setq found t)
+        ))
+    (if found
+        (car vlist)
+      nil)
+    ))
+
 ;; get all the possible targets
 (defun cppcm-query-targets (f)
   (let ((vars ())
@@ -134,9 +148,9 @@ For example:
 ;; Please enlighten me if you have better result
 (defun cppcm-get-root-source-dir (d)
   (let (rlt)
-    (setq lt (cppcm-query-var (concat d "CMakeCache.txt") "Project_SOURCE_DIR\:STATIC\=\\(.*\\)"))
+    (setq lt (dojeda/cppcm-query-var (concat d "CMakeCache.txt") "Project_SOURCE_DIR\:STATIC\=\\(.*\\)"))
     (if (not rlt)
-        (setq rlt (cppcm-query-var (concat d "CMakeCache.txt") "[[:word:]]+_SOURCE_DIR\:STATIC\=\\(.*\\)"))
+        (setq rlt (dojeda/cppcm-query-var (concat d "CMakeCache.txt") "[[:word:]]+_SOURCE_DIR\:STATIC\=\\(.*\\)"))
         )
     rlt
     ))
