@@ -96,7 +96,7 @@ For example:
         (setq found t)
         ))
     (if found
-        (car vlist)
+        (car (sort vlist #'string-lessp))
       nil)
     ))
 
