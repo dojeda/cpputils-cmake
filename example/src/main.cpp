@@ -4,7 +4,7 @@ struct locals {
     int aaa;
     int bbb;
 
-    void test(int x, char x) const {};
+    void test(int x, char c) const {};
 };
 
 
